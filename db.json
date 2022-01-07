@@ -1,0 +1,28 @@
+{
+  "tasks": [
+    {
+      "text": "Go to market",
+      "day": "06 january 2022",
+      "reminder": true,
+      "id": 1
+    },
+    {
+      "text": "feed the livestocks",
+      "day": "06 january 2022",
+      "reminder": true,
+      "id": 2
+    },
+    {
+      "text": "Clean the bathroom",
+      "day": "05 march 2022",
+      "reminder": false,
+      "id": 3
+    },
+    {
+      "text": "",
+      "day": "",
+      "reminder": false,
+      "id": 4
+    }
+  ]
+}

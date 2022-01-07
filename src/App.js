@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/header';
 import Task from './components/tasks';
 import AddTask from './components/AddTask';
@@ -8,41 +8,52 @@ import AddTask from './components/AddTask';
 function App() {
 
 const [showAddTask, setShowAddTask] = useState(false);
-  const [tasks, setTasks] = useState(
-    [
-        { 
-          id: 1,
-          text: 'Food Shopping',
-          day: 'Feb 26th 1998',
-          reminder: true
-        },
-    
-        { 
-          id: 2,
-            text: 'Clean the Yards',
-            day: 'March 7th 2004',
-            reminder: true
-          },
-    
-          {
-             id: 3,
-            text: 'Feed the Cattles',
-            day: 'April 23rd 2008',
-            reminder: true
-          },
-    ]
-    
-)
+  const [tasks, setTasks] = useState([])
+
+  useEffect(()=> {
+    const getTasks = async () => {
+     const tasksFromServer = await fetchTasks();
+     setTasks(tasksFromServer);
+    }
+
+    getTasks()
+  }, [])
+
+const fetchTasks = async () => {
+  const res = await fetch('http://localhost:5000/tasks')
+  const data = await res.json(); 
+
+  return data;
+}
+
 
 //Add Task
-const addTask = (task) => {
-  const id = Math.floor(Math.random() * 10000) + 1
-  const newTask = {id, ...task}
-  setTasks([...tasks, newTask]);
+const addTask = async (task) => {
+   const res = await fetch('http://localhost:5000/tasks', {
+     method: 'POST',
+     headers: {
+       'Content-type': 'application/json'
+     },
+     body: JSON.stringify(task)
+   })
+
+const data = await 
+res.json()
+
+ setTasks([...tasks, data]);
+
+
+  // const id = Math.floor(Math.random() * 10000) + 1
+  // const newTask = {id, ...task}
+  // setTasks([...tasks, newTask]);
 }
 
 //Delete
-const deleteTask = (id) => {
+const deleteTask = async (id) => {
+   await fetch(`http://localhost:5000/tasks/${id}`, {
+     method: 'DELETE',
+   })
+
     setTasks(tasks.filter(task => task.id !== id));
     
 }
